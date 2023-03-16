@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<title>Delay Queue</title>
+<h1>Nicholas Taylor builds a delaying queue</h1>
+<style>
+    .flex-container {
+      display: flex;  flex-direction:row;
+      background-color: red;
+  }
+
+.flex-container > div {  /*div children of the flex container*/
+  background-color: #f1f1f1; 
+  margin: 10px;  padding: 20px;  font-size: 30px;
+}
+
+/* Responsive layout */
+@media (max-width: 600px) { 
+	 .flex-container{
+		 flex-direction:column;
+		 background-color: green;
+	  }
+	}
+</style>
+</head>
+<body>
+	<div class="flex-container" id="target">
+	  <div class="delayQ">row item 1</div>   
+	  <div class="delayQ">row item 2</div>  
+	  <div class="delayQ">row item 3</div>  
+	</div>
+	<input id="111" type="text">
+	<button onclick="makeNewDiv()">Add value</button>
+	<button onclick="get()">Get</button>
+	<button onclick="delay()">Delay</button>
+	
+</body>
+<script>
+	function makeNewDiv(){
+		/* make the div and its text */
+		let element = document.createElement("div")
+		inVal = document.getElementById("111").value
+		element.innerHTML = inVal
+		element.className = "delayQ"
+
+		/* add it to the container */
+		let container = document.getElementById('target')
+		container.appendChild(element)
+		
+	}
+	function get() {
+		queueItems = document.getElementsByClassName("delayQ")
+		queueLen = queueItems.length
+		if (queueLen > 0) {
+			queueItems[0].remove()
+		}
+	}
+	function delay() {
+		queueItems = document.getElementsByClassName("delayQ")
+		if (queueItems.length == 0 || queueItems.length == 1) {
+			return;
+		}
+		else {
+			removedItem = queueItems[0].remove()
+			let container = document.getElementById('target')
+			container.insertBefore(removedItem, container.firstChild)
+		}
+	}
+</script>
+</html>	

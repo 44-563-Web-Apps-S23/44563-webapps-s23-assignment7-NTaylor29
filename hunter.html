@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hunter</title>
+  <h1 style="text-align:center">Find the mouse by Nicholas Taylor</h1>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" 
+  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" 
+  integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" 
+  integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+</head>
+<style>
+    img {
+        width:40px;
+        height:40px;
+    }
+    .container {
+        height: 90vh;
+        margin: 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+</style>
+<body>
+    <p style="text-align:center">Click on the bushes to search for the mouse, beware the cat</p>
+    <p id="bushes" style="text-align:center">Number of bushes checked is zero</p>
+    <p id="penalty" style = "position:absolute; left:50px; top:20px">Penalty is zero</p>
+    <p style = "position:absolute; right:50px; top:20px" onClick="help()">Click for help</p>
+    <p id="help" style = "position:absolute; right:55px; top:50px">Help report</p>
+
+    <div class="container">
+        <div class="row">
+            <div onclick="check(0)"><img id=0 src="pics/bush.jpg"></div>
+            <div onclick="check(6)"><img id=6 src="pics/bush.jpg"></div>
+            <div onclick="check(12)"><img id=12 src="pics/bush.jpg"></div>
+            <div onclick="check(18)"><img id=18 src="pics/bush.jpg"></div>
+        </div>
+        <div class="row">
+            <div onclick="check(1)"><img id=1 src="pics/bush.jpg"></div>
+            <div onclick="check(7)"><img id=7 src="pics/bush.jpg"></div>
+            <div onclick="check(13)"><img id=13 src="pics/bush.jpg"></div>
+            <div onclick="check(19)"><img id=19 src="pics/bush.jpg"></div>
+        </div>
+        <div class="row">
+            <div onclick="check(2)"><img id=2 src="pics/bush.jpg"></div>
+            <div onclick="check(8)"><img id=8 src="pics/bush.jpg"></div>
+            <div onclick="check(14)"><img id=14 src="pics/bush.jpg"></div>
+            <div onclick="check(20)"><img id=20 src="pics/bush.jpg"></div>
+        </div>
+        <div class="row">
+            <div onclick="check(3)"><img id=3 src="pics/bush.jpg"></div>
+            <div onclick="check(9)"><img id=9 src="pics/bush.jpg"></div>
+            <div onclick="check(15)"><img id=15 src="pics/bush.jpg"></div>
+            <div onclick="check(21)"><img id=21 src="pics/bush.jpg"></div>
+        </div>
+        <div class="row">
+            <div onclick="check(4)"><img id=4 src="pics/bush.jpg"></div>
+            <div onclick="check(10)"><img id=10 src="pics/bush.jpg"></div>
+            <div onclick="check(16)"><img id=16 src="pics/bush.jpg"></div>
+            <div onclick="check(22)"><img id=22 src="pics/bush.jpg"></div>
+        </div>
+        <div class="row">
+            <div onclick="check(5)"><img id=5 src="pics/bush.jpg"></div>
+            <div onclick="check(11)"><img id=11 src="pics/bush.jpg"></div>
+            <div onclick="check(17)"><img id=17 src="pics/bush.jpg"></div>
+            <div onclick="check(23)"><img id=23 src="pics/bush.jpg"></div>
+        </div>
+    </div>
+</body>
+<script>
+    checkCount = 0
+    penalty = 0
+    lastCheck = 0
+    mouseLocation = 13
+    catLocation = 21
+    gameOver = false
+
+
+    function check(position) {
+        if (gameOver == true) {
+            return;
+        }
+        if (position == mouseLocation){
+            document.getElementById(position).src = "pics/mouse.jpg";
+            gameOver = true;
+            penalty = penalty - 3;
+        }
+        else if (position == catLocation) {
+            document.getElementById(position).src = "pics/tiger.jpg";
+            gameOver = true;
+            penalty = penalty + 4;
+        }
+        else {
+            document.getElementById(position).src = "pics/grass.jpg";
+        }
+        checkCount += 1;
+        penalty += 1;
+        document.getElementById("bushes").innerHTML = "Number of bushes checked is " + checkCount;
+        document.getElementById("penalty").innerHTML = "Penalty is " + penalty;
+        lastCheck = position;
+    }
+    function help() {
+        catRow = catLocation / 4
+        catCol = catLocation % 6
+        lastRow = lastCheck / 4
+        lastCol = lastCheck % 6
+        mouseRow = mouseLocation / 4
+        mouseCol = mouseLocation % 6
+        helpAns = ""
+        if (lastRow+1 == catRow || lastRow-1 == catRow || lastCol+1 == catCol || lastCol-1 == catCol) {
+            helpAns = "meow"
+        }
+        else if (lastRow+1 == mouseRow || lastRow-1 == mouseRow || lastCol+1 == mouseCol || lastCol-1 == mouseCol) {
+            helpAns = "squeek"
+        }
+        else {
+            helpAns = "sorry, no help is available"
+        }
+        penalty = penalty + 2
+        document.getElementById("penalty").innerHTML = "Penalty is " + penalty
+        document.getElementById("help").innerHTML = helpAns
+    }
+</script>
+</html>
